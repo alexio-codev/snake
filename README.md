@@ -27,7 +27,7 @@ Juego Snake, hecho con JavaScript, HTML5 Canvas y CSS3.
 
 ## Capturas
 
-![Snake Gameplay](img/snake-retry.png)
+![Snake Gameplay](assets/img/snake-retry.png)
 
 ---
 
