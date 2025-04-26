@@ -1,0 +1,92 @@
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(#2d2757 2%, transparent, #2d2757 98%),
+    linear-gradient(90deg, #2d2757 30%, #3d1881, #2d2757 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  color: #eee;
+}
+
+h1 {
+  margin: 20px;
+  font-size: 40px;
+}
+
+#start-button,
+#restart-button {
+  position: absolute;
+  font-size: 30px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+#start-button {
+  font-size: 33px;
+  padding: 2px 5px;
+  color: #e00000;
+  font-weight: bold;
+}
+
+#restart-button {
+  padding: 5px 10px;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  outline: none;
+  background-color: unset;
+}
+
+#restart-button p::first-letter {
+  color: crimson;
+  font-weight: bold;
+}
+
+#score-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+}
+
+#score-layout {
+  font-size: 16px;
+  padding-left: 5px;
+  font-weight: 400;
+}
+
+#high-score {
+  padding-right: 5px;
+}
+
+#canvas-container {
+  position: relative;
+}
+
+#canvas-container::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  top: -4px;
+  left: -4px;
+  width: calc(var(--canvas-width) + 8px);
+  height: calc(var(--canvas-height) + 30px);
+  background-color: #1a1633dd;
+  border-radius: 10px 10px 0 0;
+}
+
+.hidden {
+  opacity: 0;
+}
