@@ -9,12 +9,20 @@ body {
   height: 100vh;
   background: linear-gradient(#2d2757 2%, transparent, #2d2757 98%),
     linear-gradient(90deg, #2d2757 30%, #3d1881, #2d2757 70%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-content: center;
+  justify-items: center;
   align-items: center;
   font-family: sans-serif;
   color: #eee;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  grid-column: 2;
 }
 
 h1 {
@@ -35,6 +43,7 @@ h1 {
   padding: 2px 5px;
   color: #e00000;
   font-weight: bold;
+  align-self: center;
 }
 
 #restart-button {
@@ -59,6 +68,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   padding: 2px;
+  font-family: "Fira Code", monospace;
 }
 
 #score-layout {
@@ -82,11 +92,56 @@ h1 {
   top: -4px;
   left: -4px;
   width: calc(var(--canvas-width) + 8px);
-  height: calc(var(--canvas-height) + 30px);
+  height: calc(var(--canvas-height) + 34px);
   background-color: #1a1633dd;
   border-radius: 10px 10px 0 0;
 }
 
 .hidden {
   opacity: 0;
+}
+
+#controls {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-auto-rows: auto;
+  justify-items: center;
+  gap: 10px;
+  margin: 20px;
+  width: min-content;
+  height: min-content;
+  font-size: 25px;
+  font-weight: normal;
+  color: lightgreen;
+}
+
+#controls h2 {
+  grid-column: 1 / -1;
+  padding: 0 20px 20px;
+}
+
+.key-w {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.key-a {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.key-s {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.key-d {
+  grid-row: 3;
+  grid-column: 3;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 6px #00000055);
 }

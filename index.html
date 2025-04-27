@@ -5,20 +5,44 @@
     <link rel="stylesheet" href="snake.css" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <title>Snake</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <h1>SNAKE</h1>
-    <span id="start-button">Enter</span>
-    <dialog id="restart-button">
-      <p>Restart</p>
-    </dialog>
-    <div id="canvas-container">
-      <div id="score-container">
-        <span id="score-layout"></span>
-        <span id="high-score"></span>
+    <div id="main">
+      <h1>SNAKE</h1>
+      <span id="start-button">Enter</span>
+      <dialog id="restart-button">
+        <p>Restart</p>
+      </dialog>
+      <div id="canvas-container">
+        <div id="score-container">
+          <span id="score-layout"></span>
+          <span id="high-score"></span>
+        </div>
+        <canvas id="board"></canvas>
       </div>
-      <canvas id="board"></canvas>
+    </div>
+    <div id="controls">
+      <h2>[controls]</h2>
+      <svg class="icon key-a">
+        <use href="assets/icons.svg#keyA">
+      </svg>
+
+      <svg class="icon key-d">
+        <use href="assets/icons.svg#keyD">
+      </svg>
+
+      <svg class="icon key-s">
+        <use href="assets/icons.svg#keyS">
+      </svg>
+
+      <svg class="icon key-w">
+        <use href="assets/icons.svg#keyW">
+      </svg>
     </div>
     <audio src="assets/snake.mp3" loop preload="auto"></audio>
     <script src="snake.js"></script>
