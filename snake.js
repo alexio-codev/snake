@@ -122,7 +122,7 @@ const update = () => {
   snakeY += velocityY * square;
 
   // Snake
-  ctx.fillStyle = "#9ac503";
+  ctx.fillStyle = "lightgreen";
   ctx.fillRect(snakeX + 1.5, snakeY + 1.5, square - 3, square - 3);
 
   for (let i = 0; i < snakeBody.length; i++) {
