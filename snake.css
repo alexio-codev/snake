@@ -145,3 +145,7 @@ h1 {
   height: 64px;
   filter: drop-shadow(0 0 6px #00000055);
 }
+
+.pressColor {
+  color: crimson;
+}

@@ -102,7 +102,9 @@ const update = () => {
   // Take food
   if (snakeX === foodX && snakeY === foodY) {
     snakeBody.push([foodX, foodY]);
+    // Score layout actualizer
     score++;
+    scoreLayout.textContent = `> score ${score}`;
     adjustSpeed(score);
     placeFood();
   }
@@ -147,9 +149,6 @@ const update = () => {
     }
   }
 
-  // Score layout actualizer
-  scoreLayout.textContent = `> score ${score}`;
-
   directionChanged = false;
 };
 
@@ -177,17 +176,13 @@ const svgKeyS = document.querySelector(".key-s");
 const svgKeyD = document.querySelector(".key-d");
 const svgKeyA = document.querySelector(".key-a");
 
-// colors
-let currentColor = "unset";
-let pressColor = "crimson";
-
 // Controls
 let directionChanged = false;
 const changeDirection = (e) => {
   if (!directionChanged)
     if ((e.code === "ArrowUp" || e.code === "KeyW") && velocityY != 1) {
       isKeyPressed = true;
-      svgKeyW.style.color = pressColor;
+      svgKeyW.classList.add("pressColor");
       velocityX = 0;
       velocityY = -1;
       directionChanged = true;
@@ -196,7 +191,7 @@ const changeDirection = (e) => {
       velocityY != -1
     ) {
       isKeyPressed = true;
-      svgKeyS.style.color = pressColor;
+      svgKeyS.classList.add("pressColor");
       velocityX = 0;
       velocityY = 1;
       directionChanged = true;
@@ -205,7 +200,7 @@ const changeDirection = (e) => {
       velocityX != -1
     ) {
       isKeyPressed = true;
-      svgKeyD.style.color = pressColor;
+      svgKeyD.classList.add("pressColor");
       velocityX = 1;
       velocityY = 0;
       directionChanged = true;
@@ -214,7 +209,7 @@ const changeDirection = (e) => {
       velocityX != 1
     ) {
       isKeyPressed = true;
-      svgKeyA.style.color = pressColor;
+      svgKeyA.classList.add("pressColor");
       velocityX = -1;
       velocityY = 0;
       directionChanged = true;
@@ -224,16 +219,16 @@ const changeDirection = (e) => {
 const changeKeyColor = (e) => {
   if (e.code === "ArrowUp" || e.code === "KeyW") {
     isKeyPressed = false;
-    svgKeyW.style.color = currentColor;
+    svgKeyW.classList.remove("pressColor");
   } else if (e.code === "ArrowDown" || e.code === "KeyS") {
     isKeyPressed = false;
-    svgKeyS.style.color = currentColor;
+    svgKeyS.classList.remove("pressColor");
   } else if (e.code === "ArrowRight" || e.code === "KeyD") {
     isKeyPressed = false;
-    svgKeyD.style.color = currentColor;
+    svgKeyD.classList.remove("pressColor");
   } else if (e.code === "ArrowLeft" || e.code === "KeyA") {
     isKeyPressed = false;
-    svgKeyA.style.color = currentColor;
+    svgKeyA.classList.remove("pressColor");
   }
 };
 
@@ -297,8 +292,8 @@ const resetGame = () => {
   gameLoop = setInterval(update, 100);
   document.addEventListener("keydown", changeDirection);
   document.addEventListener("keyup", changeKeyColor);
-  svgKeyW.style.color = currentColor;
-  svgKeyS.style.color = currentColor;
-  svgKeyD.style.color = currentColor;
-  svgKeyA.style.color = currentColor;
+  svgKeyW.classList.remove("pressColor");
+  svgKeyS.classList.remove("pressColor");
+  svgKeyD.classList.remove("pressColor");
+  svgKeyA.classList.remove("pressColor");
 };
