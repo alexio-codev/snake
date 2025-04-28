@@ -8,10 +8,11 @@ bgMusic.volume = 0.2;
 title.style.display = "none";
 canvasCont.classList.add("hidden");
 scoreLayout.style.display = "none";
+restartBtn.style.display = "none";
 
 // Board
 const square = 40; // default 40
-const rows = 15; // default 10
+const rows = 14; // default 10
 const cols = 20; // default 15
 
 const board = document.getElementById("board");
@@ -72,7 +73,7 @@ document.addEventListener("keydown", handleStartGame);
 const handleRestartGame = (e) => {
   if (e.type === "click" || e.code === "KeyR" || e.code === "Enter") {
     resetGame();
-    restartBtn.close();
+    restartBtn.style.display = "none";
     document.removeEventListener("keydown", handleRestartGame);
     document.removeEventListener("click", handleRestartGame);
   }
@@ -83,9 +84,10 @@ const update = () => {
   if (gameOver) {
     saveHighScore(score);
     bgMusic.pause();
+    canvasCont.style.cursor = "auto";
     document.removeEventListener("keydown", changeDirection);
     document.removeEventListener("keyup", changeKeyColor);
-    restartBtn.showModal();
+    restartBtn.style.display = "block";
     restartBtn.addEventListener("click", handleRestartGame);
     document.addEventListener("keydown", handleRestartGame);
     svgKeyW.classList.remove("pressStyle");
@@ -185,38 +187,38 @@ let directionChanged = false;
 const changeDirection = (e) => {
   if (!directionChanged)
     if ((e.code === "ArrowUp" || e.code === "KeyW") && velocityY != 1) {
-      isKeyPressed = true;
-      svgKeyW.classList.add("pressStyle");
       velocityX = 0;
       velocityY = -1;
       directionChanged = true;
+      isKeyPressed = true;
+      svgKeyW.classList.add("pressStyle");
     } else if (
       (e.code === "ArrowDown" || e.code === "KeyS") &&
       velocityY != -1
     ) {
-      isKeyPressed = true;
-      svgKeyS.classList.add("pressStyle");
       velocityX = 0;
       velocityY = 1;
       directionChanged = true;
+      isKeyPressed = true;
+      svgKeyS.classList.add("pressStyle");
     } else if (
       (e.code === "ArrowRight" || e.code === "KeyD") &&
       velocityX != -1
     ) {
-      isKeyPressed = true;
-      svgKeyD.classList.add("pressStyle");
       velocityX = 1;
       velocityY = 0;
       directionChanged = true;
+      isKeyPressed = true;
+      svgKeyD.classList.add("pressStyle");
     } else if (
       (e.code === "ArrowLeft" || e.code === "KeyA") &&
       velocityX != 1
     ) {
-      isKeyPressed = true;
-      svgKeyA.classList.add("pressStyle");
       velocityX = -1;
       velocityY = 0;
       directionChanged = true;
+      isKeyPressed = true;
+      svgKeyA.classList.add("pressStyle");
     }
 };
 
@@ -297,4 +299,5 @@ const resetGame = () => {
   gameLoop = setInterval(update, 100);
   document.addEventListener("keydown", changeDirection);
   document.addEventListener("keyup", changeKeyColor);
+  canvasCont.style.cursor = "none";
 };
