@@ -10,20 +10,20 @@ canvasCont.classList.add("hidden");
 scoreLayout.style.display = "none";
 
 // Board
-const square = 40;
-const rows = 10;
-const cols = 15;
+const square = 40; // default 40
+const rows = 15; // default 10
+const cols = 20; // default 15
 
 const board = document.getElementById("board");
 board.width = square * cols;
 board.height = square * rows;
 const ctx = board.getContext("2d");
 
-// Snake head
+// Snake head initial position
 let snakeX = square * 2;
 let snakeY = square * 2;
 
-// Snake Velocity
+// Snake initial velocity
 let velocityX = 0;
 let velocityY = 0;
 
@@ -49,9 +49,9 @@ const startGame = () => {
   startBtn.style.display = "none";
   scoreLayout.style.display = "flex";
   canvasCont.style.cursor = "none";
+  placeFood();
   bgMusic.play();
   displayHighScore();
-  placeFood();
   document.addEventListener("keydown", changeDirection);
   document.addEventListener("keyup", changeKeyColor);
   clearInterval(gameLoop);
@@ -61,8 +61,8 @@ const startGame = () => {
 const handleStartGame = (e) => {
   if (e.type === "click" || e.code === "Enter") {
     startGame();
+    startBtn.removeEventListener("click", handleStartGame);
     document.removeEventListener("keydown", handleStartGame);
-    document.removeEventListener("click", handleStartGame);
   }
 };
 
@@ -88,6 +88,10 @@ const update = () => {
     restartBtn.showModal();
     restartBtn.addEventListener("click", handleRestartGame);
     document.addEventListener("keydown", handleRestartGame);
+    svgKeyW.classList.remove("pressStyle");
+    svgKeyS.classList.remove("pressStyle");
+    svgKeyD.classList.remove("pressStyle");
+    svgKeyA.classList.remove("pressStyle");
     return;
   }
 
@@ -123,14 +127,14 @@ const update = () => {
 
   // Snake
   ctx.fillStyle = "lightgreen";
-  ctx.fillRect(snakeX + 1.5, snakeY + 1.5, square - 3, square - 3);
+  ctx.fillRect(snakeX + 3, snakeY + 3, square - 6, square - 6);
 
   for (let i = 0; i < snakeBody.length; i++) {
     ctx.fillRect(
-      snakeBody[i][0] + 1.5,
-      snakeBody[i][1] + 1.5,
-      square - 3,
-      square - 3
+      snakeBody[i][0] + 3,
+      snakeBody[i][1] + 3,
+      square - 6,
+      square - 6
     );
   }
 
@@ -182,7 +186,7 @@ const changeDirection = (e) => {
   if (!directionChanged)
     if ((e.code === "ArrowUp" || e.code === "KeyW") && velocityY != 1) {
       isKeyPressed = true;
-      svgKeyW.classList.add("pressColor");
+      svgKeyW.classList.add("pressStyle");
       velocityX = 0;
       velocityY = -1;
       directionChanged = true;
@@ -191,7 +195,7 @@ const changeDirection = (e) => {
       velocityY != -1
     ) {
       isKeyPressed = true;
-      svgKeyS.classList.add("pressColor");
+      svgKeyS.classList.add("pressStyle");
       velocityX = 0;
       velocityY = 1;
       directionChanged = true;
@@ -200,7 +204,7 @@ const changeDirection = (e) => {
       velocityX != -1
     ) {
       isKeyPressed = true;
-      svgKeyD.classList.add("pressColor");
+      svgKeyD.classList.add("pressStyle");
       velocityX = 1;
       velocityY = 0;
       directionChanged = true;
@@ -209,7 +213,7 @@ const changeDirection = (e) => {
       velocityX != 1
     ) {
       isKeyPressed = true;
-      svgKeyA.classList.add("pressColor");
+      svgKeyA.classList.add("pressStyle");
       velocityX = -1;
       velocityY = 0;
       directionChanged = true;
@@ -219,16 +223,16 @@ const changeDirection = (e) => {
 const changeKeyColor = (e) => {
   if (e.code === "ArrowUp" || e.code === "KeyW") {
     isKeyPressed = false;
-    svgKeyW.classList.remove("pressColor");
+    svgKeyW.classList.remove("pressStyle");
   } else if (e.code === "ArrowDown" || e.code === "KeyS") {
     isKeyPressed = false;
-    svgKeyS.classList.remove("pressColor");
+    svgKeyS.classList.remove("pressStyle");
   } else if (e.code === "ArrowRight" || e.code === "KeyD") {
     isKeyPressed = false;
-    svgKeyD.classList.remove("pressColor");
+    svgKeyD.classList.remove("pressStyle");
   } else if (e.code === "ArrowLeft" || e.code === "KeyA") {
     isKeyPressed = false;
-    svgKeyA.classList.remove("pressColor");
+    svgKeyA.classList.remove("pressStyle");
   }
 };
 
@@ -282,6 +286,7 @@ const resetGame = () => {
   velocityY = 0;
   snakeBody.length = 0;
   score = 0;
+  scoreLayout.textContent = `> score ${score}`;
   gameOver = false;
   placeFood();
   displayHighScore();
@@ -292,8 +297,4 @@ const resetGame = () => {
   gameLoop = setInterval(update, 100);
   document.addEventListener("keydown", changeDirection);
   document.addEventListener("keyup", changeKeyColor);
-  svgKeyW.classList.remove("pressColor");
-  svgKeyS.classList.remove("pressColor");
-  svgKeyD.classList.remove("pressColor");
-  svgKeyA.classList.remove("pressColor");
 };

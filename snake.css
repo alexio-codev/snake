@@ -144,8 +144,10 @@ h1 {
   width: 64px;
   height: 64px;
   filter: drop-shadow(0 0 6px #00000055);
+  transition: color 50ms ease-in 50ms, transform 50ms ease-in 50ms;
 }
 
-.pressColor {
+.pressStyle {
   color: crimson;
+  transform: scale(0.95);
 }
