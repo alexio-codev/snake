@@ -5,8 +5,12 @@ const canvasCont = document.getElementById("canvas-container");
 const scoreLayout = document.getElementById("score-layout");
 const bgMusic = document.getElementById("bg-music");
 const crashSound = document.getElementById("crash-sound");
+const foodSound = document.getElementById("food-sound");
+const eggSound = document.getElementById("egg-sound");
 bgMusic.volume = 0.2;
 crashSound.volume = 0.2;
+foodSound.volume = 0.2;
+eggSound.volume = 0.2;
 title.style.display = "none";
 canvasCont.classList.add("hidden");
 scoreLayout.style.display = "none";
@@ -119,6 +123,7 @@ const update = () => {
 
   // Take food
   if (snakeX === foodX && snakeY === foodY) {
+    foodSound.play();
     snakeBody.push([foodX, foodY]);
     // Score layout actualizer
     score++;
@@ -128,6 +133,7 @@ const update = () => {
   }
 
   if (snakeX === eggX && snakeY === eggY) {
+    eggSound.play();
     snakeBody.push(
       [eggX, eggY],
       [eggX, eggY],
