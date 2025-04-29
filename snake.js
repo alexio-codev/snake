@@ -3,8 +3,10 @@ const startBtn = document.getElementById("start-button");
 const restartBtn = document.getElementById("restart-button");
 const canvasCont = document.getElementById("canvas-container");
 const scoreLayout = document.getElementById("score-layout");
-const bgMusic = document.querySelector("audio");
+const bgMusic = document.getElementById("bg-music");
+const crashSound = document.getElementById("crash-sound");
 bgMusic.volume = 0.2;
+crashSound.volume = 0.2;
 title.style.display = "none";
 canvasCont.classList.add("hidden");
 scoreLayout.style.display = "none";
@@ -34,6 +36,10 @@ const snakeBody = [];
 // Food
 let foodX;
 let foodY;
+
+// Egg
+let eggX;
+let eggY;
 
 // Score
 let score = 0;
@@ -105,6 +111,12 @@ const update = () => {
   ctx.fillStyle = "#eb2d53";
   drawFood();
 
+  // Egg
+  ctx.fillStyle = "#f5f5dc";
+  if (Math.floor(Date.now() / 300) % 2 === 0) {
+    drawEgg();
+  }
+
   // Take food
   if (snakeX === foodX && snakeY === foodY) {
     snakeBody.push([foodX, foodY]);
@@ -113,6 +125,20 @@ const update = () => {
     scoreLayout.textContent = `> score ${score}`;
     adjustSpeed(score);
     placeFood();
+  }
+
+  if (snakeX === eggX && snakeY === eggY) {
+    snakeBody.push(
+      [eggX, eggY],
+      [eggX, eggY],
+      [eggX, eggY],
+      [eggX, eggY],
+      [eggX, eggY]
+    );
+    score += 5;
+    scoreLayout.textContent = `> score ${score}`;
+    eggX = undefined;
+    eggY = undefined;
   }
 
   // Broken neck solution
@@ -127,8 +153,25 @@ const update = () => {
   snakeX += velocityX * square;
   snakeY += velocityY * square;
 
+  // Game over conditions
+  if (
+    snakeX < 0 ||
+    snakeX >= cols * square ||
+    snakeY < 0 ||
+    snakeY >= rows * square
+  ) {
+    gameOver = true;
+    crashSound.play();
+  }
+  for (let i = 0; i < snakeBody.length; i++) {
+    if (snakeX === snakeBody[i][0] && snakeY === snakeBody[i][1]) {
+      gameOver = true;
+      crashSound.play();
+    }
+  }
+
   // Snake
-  ctx.fillStyle = "lightgreen";
+  !gameOver ? (ctx.fillStyle = "lightgreen") : (ctx.fillStyle = "lightcoral");
   ctx.fillRect(snakeX + 3, snakeY + 3, square - 6, square - 6);
 
   for (let i = 0; i < snakeBody.length; i++) {
@@ -138,21 +181,6 @@ const update = () => {
       square - 6,
       square - 6
     );
-  }
-
-  // Game over conditions
-  if (
-    snakeX < 0 ||
-    snakeX >= cols * square ||
-    snakeY < 0 ||
-    snakeY >= rows * square
-  ) {
-    gameOver = true;
-  }
-  for (let i = 0; i < snakeBody.length; i++) {
-    if (snakeX === snakeBody[i][0] && snakeY === snakeBody[i][1]) {
-      gameOver = true;
-    }
   }
 
   directionChanged = false;
@@ -172,7 +200,31 @@ function drawFood() {
   const thickness = 12;
 
   ctx.fillRect(x, y + (size - thickness) / 2, size, thickness);
+  ctx.fillRect(x + (size - thickness) / 2, y, thickness, size);
+}
 
+// Set egg
+const placeEgg = () => {
+  const lastTail =
+    snakeBody.length - 2
+      ? snakeBody[snakeBody.length - 2]
+      : snakeBody[snakeBody.length - 1];
+  eggX = lastTail[0];
+  eggY = lastTail[1];
+  setTimeout(() => {
+    eggX = undefined;
+    eggY = undefined;
+  }, 2500);
+};
+
+// Egg style
+function drawEgg() {
+  const size = square - 16;
+  const x = eggX + 8;
+  const y = eggY + 8;
+  const thickness = 12;
+
+  ctx.fillRect(x, y + (size - thickness) / 2, size, thickness + 6);
   ctx.fillRect(x + (size - thickness) / 2, y, thickness, size);
 }
 
@@ -266,6 +318,7 @@ const displayHighScore = () => {
 // SpeedUpdater
 let currentSpeed = 100;
 const adjustSpeed = (score) => {
+  if (score % 5 === 0) placeEgg();
   let newSpeed = 100;
   if (score >= 50) newSpeed = 50;
   else if (score >= 40) newSpeed = 60;
